@@ -18,7 +18,6 @@ const createWorkspace = () => {
         id: randomId,
         name: newWorkspaceName.value,
     })
-
 }
 </script>
 
@@ -28,7 +27,7 @@ const createWorkspace = () => {
     <h2>Recently Viewed</h2>
     <h2>Workspaces</h2>
     <button @click="createWorkspace()">Create a Workspace</button>
-    <input type="text" v-model="newWorkspaceName"> 
+    <input type="text" v-model="newWorkspaceName" @keyup.enter="createWorkspace()"> 
     <ul class="workspace-list">
         <li v-for="workspace in workspaceList" :key="workspace.id" class="workspace-card">
           {{ workspace.id }}: {{ workspace.name }}
