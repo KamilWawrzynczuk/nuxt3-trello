@@ -1,19 +1,22 @@
-<script>
 
-</script>
-<script setup>
+<script lang='ts' setup>
 import { ref } from 'vue'
+
+type Workspace = {
+    id: Number,
+    name: String,
+}
 
 const newWorkspaceName = ref('')
 
-const workspaceList = ref([])
+const workspaceList = ref(<Workspace[]>[])
 
 const createWorkspace = () => {
     const randomId = Math.floor(Math.random() * 100)
 
     workspaceList.value.push({
         id: randomId,
-        name: newWorkspaceName.value
+        name: newWorkspaceName.value,
     })
 
 }
