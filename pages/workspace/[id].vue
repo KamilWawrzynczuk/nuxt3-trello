@@ -65,7 +65,7 @@ export default {
 .board-column {
       border: 1px solid black;
       height: 80vh;
-      width: 100px;
       margin-right: 10px;
 }
+
 </style>
