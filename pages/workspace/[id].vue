@@ -11,11 +11,11 @@ export default {
     workspaceName: '',
     boardList: [],
     board: {
-      name: 'Cherries', 
+      name: '', 
       columns: []
     },
   }),
-  methods: {
+  methods: { 
     createColumn() {
       this.board.columns.push({
         newItemName: '',
@@ -49,7 +49,7 @@ export default {
    <button @click="createColumn()">Create Column</button>
   <div class="column-grid">
     <section class="board-column" v-for="column in board.columns">
-      <input type="text" v-model="column.newItemName" @keyup.enter="createCard(column)">
+      <input type="text" v-model="column.newItemName" @keyup.enter="createCard(column)" >
       <button @click="createCard(column)">Create Cart</button>
       <ul>
         <li v-for="item in column.items" :key="item.id">{{ item.name }}</li>
