@@ -14,18 +14,18 @@ export default {
       name: 'Cherries', 
       columns: []
     },
-    newCardItem: '',
   }),
   methods: {
     createColumn() {
       this.board.columns.push({
+        newItemName: '',
         items:[]
       })
     },
     createCard(column){
       column.items.push({
         id: 123,
-        name: this.newCardItem
+        name: column.newItemName
       })
     }
   },
@@ -44,7 +44,7 @@ export default {
    <button @click="createColumn()">Create Column</button>
   <div class="column-grid">
     <section class="board-column" v-for="column in board.columns">
-      <input type="text" v-model="newCardItem">
+      <input type="text" v-model="column.newItemName">
       <button @click="createCard(column)">Create Cart</button>
       <ul>
         <li v-for="item in column.items" :key="item.id">{{ item.name }}</li>
