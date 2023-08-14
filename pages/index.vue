@@ -17,12 +17,12 @@ const createWorkspace = () => {
 </script>
 
 <template>
-    <div>
-         <h1>Home Page</h1>
-        <h2>Recently Viewed</h2>
+    <main class="main-content">
+        <h1>Home Page</h1>
         <h2>Workspaces</h2>
-        <button @click="createWorkspace()">Create a Workspace</button>
-        <input type="text" v-model="newWorkspaceName" @keyup.enter="createWorkspace()"> 
+      
+        <input type="text" v-model="newWorkspaceName" @keyup.enter="createWorkspace()" style='width:100%; padding: 5px; font-size: 1rem; margin-bottom: 10px;'/> 
+        <button @click="createWorkspace()" style="padding: 10px 5px;">Create a Workspace</button>
         <ul class="workspace-list">
         
             <li v-for="workspace in workspaceList" :key="workspace.id" class="workspace-card">
@@ -31,7 +31,7 @@ const createWorkspace = () => {
             </nuxt-link>  
             </li>
         </ul>
-    </div>
+    </main>
    
 </template>
 
@@ -39,12 +39,24 @@ const createWorkspace = () => {
 .workspace-card{
     display: block;
     border: 2px solid black;
-    border-radius: 15px;
+    border-radius: 4px;
     padding: 15px;
     margin-bottom: 5px;
 }
 .workspace-list {
     margin-left: 0;
     padding-left: 0 ;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.main-content{
+    padding: 30px;
+}
+
+.main-content h1 {
+    margin-top: 0;
 }
 </style>
