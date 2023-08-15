@@ -12,5 +12,10 @@
     "@nuxt/devtools": "latest",
     "@types/node": "^18.17.3",
     "nuxt": "^3.6.5"
+  },
+  "dependencies": {
+    "@vueuse/components": "^10.3.0",
+    "@vueuse/core": "^10.3.0",
+    "vuedraggable": "^4.1.0"
   }
 }

@@ -1,5 +1,7 @@
 <script>
 import { workspaceList } from '../../store/global.js'
+import { UseDraggable } from '@vueuse/components'
+import { ref } from 'vue'
 
 export default {
   setup() {
@@ -7,13 +9,46 @@ export default {
       workspaceList
     }
   },
+  components: {
+    UseDraggable
+  },
   data: () => ({
     newColumnName: '',
     workspaceName: '',
     boardList: [],
     board: {
       name: '', 
-      columns: []
+      columns: [
+        {
+          columnName: 'Fluffy',
+          newItemName: '',
+          items:[ {
+            id: 1234,
+            name: 'Punch Deaf'
+            },]
+        },
+        {
+          columnName: 'Killer',
+          newItemName: '',
+          items:[ 
+            {
+            id: 12345,
+            name: 'Suck kick'
+            },
+            ]
+        },
+        {
+          columnName: 'Puschek',
+          newItemName: '',
+          items:[
+            {
+            id: 123456,
+            name: 'Blow middle'
+            }]
+        }
+       
+        
+    ]
     },
   }),
   methods: { 
@@ -39,6 +74,16 @@ export default {
 
       column.newItemName = ' '
       
+    },
+    migrateItem({cardId, targetColumn, originalColumn}) {
+      // move item to new list
+        this.board.columns.find(column => column.columnName === targetColumn).items.push(
+          this.board.columns.find(column=> column.columnName === originalColumn).items.find(item => item.id === cardId)
+        )
+      // remove item from old list
+
+       const parentColumn = this.board.columns.find(column => column.columnName === originalColumn)
+       parentColumn.items = parentColumn.items.filter(item => item.id !== cardId)
     }
   },
   mounted() {
@@ -52,6 +97,7 @@ export default {
 <template>
   <main class="workspace-page">
   <h1>{{ workspaceName }} workspace {{ $route.params.id }}</h1>
+
   <section>
     <input type="text" @keydown.enter="createColumn" v-model="newColumnName" placeholder="New column title" style="display: block; width: 100%; padding: 5px; font-smooth: 0.9rem; margin-bottom: 10px;" />
     <button @click="createColumn" style="margin-bottom: 15px;">Create Column</button>
@@ -61,7 +107,13 @@ export default {
         <input type="text" v-model="column.newItemName" @keyup.enter="createCard(column)"  style="padding: 5px; font-size: 0.9rem; margin-bottom: 10px;" placeholder="New Card Item">
         <button @click="createCard(column)" style="margin-bottom: 15px;">Create Cart</button>
         <ul style="margin: 0; padding: 0">
-          <li v-for="item in column.items" :key="item.id" class="base-card">{{ item.name }}</li>
+          
+            <li  v-for="item in column.items" :key="item.id" class="base-card" style=" list-style: none;">
+              <UseDraggable :initialValue="{ x: 50, y: 10 }" v-slot="{ x, y }" style="position: fixed">
+                <BaseCard :data="item" :migrateList="board.columns" :parentColumn="column.columnName" @migrate-item="migrateItem" :position="{x,y}"/>
+              </UseDraggable>
+            </li>
+         
         </ul>
       </section>
     </div>
@@ -71,12 +123,7 @@ export default {
 
 <style>
 
-.base-card{
-  border: 1px solid #222;
-  padding: 10px;
-  list-style: none;
-  background-color: #fff;
-}
+
 
 .workspace-page{
   padding: 30px;
